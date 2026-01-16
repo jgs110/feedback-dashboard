@@ -48,9 +48,10 @@ interface FeedbackCardProps {
   onSourceClick?: (source: string) => void;
   onSentimentClick?: (sentiment: string) => void;
   onThemeClick?: (theme: string) => void;
+  isLiveMode?: boolean;
 }
 
-export function FeedbackCard({ item, onEnriched, onSourceClick, onSentimentClick, onThemeClick }: FeedbackCardProps) {
+export function FeedbackCard({ item, onEnriched, onSourceClick, onSentimentClick, onThemeClick, isLiveMode = false }: FeedbackCardProps) {
   const { showToast } = useToast();
   const [analyzing, setAnalyzing] = useState(false);
   const [localItem, setLocalItem] = useState(item);
@@ -74,7 +75,8 @@ export function FeedbackCard({ item, onEnriched, onSourceClick, onSentimentClick
     }
   };
 
-  const needsAnalysis = !localItem.summary;
+  // Only show Analyze button in Live mode (mock IDs don't exist in D1)
+  const needsAnalysis = isLiveMode && !localItem.summary;
 
   // Format date to relative time
   const formatRelativeTime = (dateString: string) => {

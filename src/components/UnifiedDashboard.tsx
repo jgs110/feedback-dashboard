@@ -37,7 +37,8 @@ export function UnifiedDashboard() {
   const { theme, toggleTheme } = useTheme();
 
   // Data mode from env var (with runtime toggle option)
-  const envMode = (import.meta.env.VITE_DATA_MODE as DataMode) || "mock";
+  // Default to "live" in production, "mock" only if explicitly set
+  const envMode = (import.meta.env.VITE_DATA_MODE as DataMode) || "live";
   const [dataMode, setDataMode] = useState<DataMode>(envMode);
 
   // Read initial state from URL
@@ -88,7 +89,25 @@ export function UnifiedDashboard() {
   // Load feedback for Inbox view
   useEffect(() => {
     if (view === "inbox") {
-      loadFeedback();
+      const currentProvider = getProvider(dataMode);
+      const loadData = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+          const [response, focus] = await Promise.all([
+            currentProvider.listFeedback(filters),
+            currentProvider.getRecommendedFocus(filters),
+          ]);
+          setFeedbackItems(response.items);
+          setTotalCount(response.total);
+          setFocusData(focus);
+        } catch (err: any) {
+          setError(err.message || "Failed to load feedback");
+        } finally {
+          setLoading(false);
+        }
+      };
+      loadData();
     }
   }, [view, filters, dataMode]);
 
@@ -258,14 +277,30 @@ export function UnifiedDashboard() {
                 )}
               </button>
 
-              {/* Dev-only mode toggle */}
-              <button
-                onClick={() => setDataMode(dataMode === "mock" ? "live" : "mock")}
-                className="px-4 py-2 text-sm rounded-md border hover:bg-accent transition-colors"
-                title="Toggle data mode"
-              >
-                {dataMode === "mock" ? "📦 Mock" : "🌐 Live"}
-              </button>
+              {/* Data mode toggle */}
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted/50 border">
+                <span className={`text-xs font-medium ${dataMode === "mock" ? "text-foreground" : "text-muted-foreground"}`}>
+                  Mock
+                </span>
+                <button
+                  onClick={() => setDataMode(dataMode === "mock" ? "live" : "mock")}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${
+                    dataMode === "live"
+                      ? "bg-orange-500"
+                      : "bg-gray-300 dark:bg-gray-600"
+                  }`}
+                  title="Toggle data mode"
+                >
+                  <span
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                      dataMode === "live" ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  />
+                </button>
+                <span className={`text-xs font-medium ${dataMode === "live" ? "text-foreground" : "text-muted-foreground"}`}>
+                  Live
+                </span>
+              </div>
 
               {dataMode === "live" && (
                 <button
@@ -372,6 +407,7 @@ export function UnifiedDashboard() {
                     onSourceClick={handleSourceClick}
                     onSentimentClick={handleSentimentClick}
                     onThemeClick={handleThemeClick}
+                    isLiveMode={dataMode === "live"}
                   />
                 ))}
               </div>

@@ -241,7 +241,10 @@ app.post('/api/feedback', async (c) => {
     null
   ).run();
 
-  return c.json({ id, created_at: now });
+  // Fetch the created item to return full data
+  const item = await db.prepare('SELECT * FROM feedback WHERE id = ?').bind(id).first();
+
+  return c.json({ item });
 });
 
 // AI Enrichment endpoint
