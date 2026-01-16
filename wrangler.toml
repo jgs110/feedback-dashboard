@@ -1,0 +1,26 @@
+name = "feedback-dashboard"
+main = "src/worker.ts"
+compatibility_date = "2024-01-01"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"
+database_name = "feedback-db"
+database_id = "3eec8e9a-3f4e-429d-a9d5-b266bd3f721f"
+
+# KV namespace binding for caching
+[[kv_namespaces]]
+binding = "CACHE"
+id = "6c9c25d0d125496a9ed5457f41aa543c"
+
+# Workers AI binding
+[ai]
+binding = "AI"
+
+# Build configuration for TypeScript + Vite static assets
+[build]
+command = "npm run build"
+
+# Modern Wrangler Assets (replaces Workers Sites)
+[assets]
+directory = "./dist"
