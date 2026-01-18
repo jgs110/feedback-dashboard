@@ -74,31 +74,33 @@ export function DeltaView({ items, loading, onDeltaClick }: DeltaViewProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Sparkles className="h-5 w-5 text-primary" />
-          What Changed in the Last 24 Hours?
-          <span className="text-xs font-normal text-muted-foreground ml-auto">
-            Compared to the previous 24 hours
+      <CardHeader className="p-3 sm:p-6 pb-2 sm:pb-4">
+        <CardTitle className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+            <span className="text-sm sm:text-base">What Changed?</span>
+          </div>
+          <span className="text-xs font-normal text-muted-foreground sm:ml-auto">
+            Last 24h vs previous 24h
           </span>
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
+      <CardContent className="p-3 sm:p-6 pt-0">
+        <div className="space-y-2 sm:space-y-3">
           {items.map((item) => (
             <button
               key={`${item.kind}-${item.theme}`}
               onClick={() => onDeltaClick(item.theme)}
-              className={`w-full text-left p-3 rounded-lg border transition-colors hover:opacity-90 cursor-pointer ${getKindColor(
+              className={`w-full text-left p-2.5 sm:p-3 rounded-lg border transition-colors hover:opacity-90 cursor-pointer ${getKindColor(
                 item.kind
               )}`}
             >
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-2 sm:gap-3">
                 {getIcon(item.kind)}
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-foreground">{item.label}</p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Current: {item.countCurrent} items • Previous: {item.countPrevious} items
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs sm:text-sm font-medium text-foreground line-clamp-1">{item.label}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5 sm:mt-1">
+                    Now: {item.countCurrent} • Before: {item.countPrevious}
                   </p>
                 </div>
               </div>
@@ -106,8 +108,8 @@ export function DeltaView({ items, loading, onDeltaClick }: DeltaViewProps) {
           ))}
         </div>
 
-        {/* Help text */}
-        <div className="mt-4 pt-4 border-t">
+        {/* Help text - hidden on mobile */}
+        <div className="hidden sm:block mt-4 pt-4 border-t">
           <p className="text-xs text-muted-foreground">
             <strong>How this works:</strong> This section compares feedback volume in the last 24 hours
             against the previous 24 hours (24–48h ago). It highlights spikes (≥+2 items), drops (≥–2 items),

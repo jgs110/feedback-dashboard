@@ -215,21 +215,22 @@ export function SourceThemeSankey({ filters, useMockData = false, onFilterChange
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
+      <CardHeader className="p-3 sm:p-6 pb-2 sm:pb-4">
+        <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
           <div className="flex items-center gap-2">
-            <GitBranch className="h-5 w-5 text-primary" />
-            Source → Theme Flow
+            <GitBranch className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+            <span className="text-sm sm:text-base">Source Flow</span>
           </div>
-          <span className="text-sm font-normal text-muted-foreground">
+          <span className="text-xs font-normal text-muted-foreground">
             {data.totalItemsConsidered} items
           </span>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-3 sm:p-6 pt-0">
         <ReactECharts
           option={option}
-          style={{ height: "400px" }}
+          style={{ height: "280px" }}
+          className="sm:!h-[400px]"
           onEvents={{ click: onChartClick }}
         />
       </CardContent>

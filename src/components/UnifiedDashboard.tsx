@@ -247,27 +247,30 @@ export function UnifiedDashboard() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b bg-card">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between mb-4 gap-4">
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-2">
+        <div className="container mx-auto px-4 py-4 sm:py-6">
+          {/* Mobile: Stack vertically, Desktop: Side by side */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-3 mb-1 sm:mb-2">
                 <img
                   src="/cloudflare-logo.svg"
                   alt="Cloudflare"
-                  className="h-8 w-auto"
+                  className="h-6 sm:h-8 w-auto"
                 />
               </div>
-              <h1 className="text-3xl font-bold text-foreground">
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground">
                 Feedback Intelligence Dashboard
               </h1>
-              <p className="text-muted-foreground mt-1">
+              <p className="text-sm text-muted-foreground mt-1 hidden sm:block">
                 Aggregated insights from X, GitHub, Discord, Support, and more
               </p>
             </div>
-            <div className="flex items-center gap-3">
+
+            {/* Controls - wrap on mobile */}
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
               <button
                 onClick={toggleTheme}
-                className="px-3 py-2 text-sm rounded-md border hover:bg-accent transition-colors"
+                className="p-2 sm:px-3 sm:py-2 text-sm rounded-md border hover:bg-accent transition-colors"
                 title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
               >
                 {theme === "light" ? (
@@ -278,13 +281,13 @@ export function UnifiedDashboard() {
               </button>
 
               {/* Data mode toggle */}
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-muted/50 border">
+              <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 rounded-lg bg-muted/50 border">
                 <span className={`text-xs font-medium ${dataMode === "mock" ? "text-foreground" : "text-muted-foreground"}`}>
                   Mock
                 </span>
                 <button
                   onClick={() => setDataMode(dataMode === "mock" ? "live" : "mock")}
-                  className={`relative w-11 h-6 rounded-full transition-colors ${
+                  className={`relative w-10 sm:w-11 h-5 sm:h-6 rounded-full transition-colors ${
                     dataMode === "live"
                       ? "bg-orange-500"
                       : "bg-gray-300 dark:bg-gray-600"
@@ -292,7 +295,7 @@ export function UnifiedDashboard() {
                   title="Toggle data mode"
                 >
                   <span
-                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                    className={`absolute top-0.5 left-0.5 w-4 sm:w-5 h-4 sm:h-5 bg-white rounded-full shadow transition-transform ${
                       dataMode === "live" ? "translate-x-5" : "translate-x-0"
                     }`}
                   />
@@ -306,9 +309,9 @@ export function UnifiedDashboard() {
                 <button
                   onClick={handleSeedData}
                   disabled={seeding}
-                  className="px-4 py-2 text-sm rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
+                  className="px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50"
                 >
-                  {seeding ? "Seeding..." : "🌱 Seed Data"}
+                  {seeding ? "..." : "🌱 Seed"}
                 </button>
               )}
             </div>
@@ -316,30 +319,30 @@ export function UnifiedDashboard() {
 
           {/* Stats Row (only show for inbox view) */}
           {view === "inbox" && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-              <div className="bg-background rounded-lg p-4 border">
-                <p className="text-sm text-muted-foreground">Total Feedback</p>
-                <p className="text-2xl font-bold text-foreground mt-1">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 mb-4">
+              <div className="bg-background rounded-lg p-3 sm:p-4 border">
+                <p className="text-xs sm:text-sm text-muted-foreground">Total</p>
+                <p className="text-xl sm:text-2xl font-bold text-foreground mt-0.5 sm:mt-1">
                   {stats.total}
                 </p>
               </div>
-              <div className="bg-background rounded-lg p-4 border">
-                <p className="text-sm text-muted-foreground">New Items</p>
-                <p className="text-2xl font-bold text-primary mt-1">
+              <div className="bg-background rounded-lg p-3 sm:p-4 border">
+                <p className="text-xs sm:text-sm text-muted-foreground">New</p>
+                <p className="text-xl sm:text-2xl font-bold text-primary mt-0.5 sm:mt-1">
                   {stats.new}
                 </p>
               </div>
-              <div className="bg-background rounded-lg p-4 border">
-                <p className="text-sm text-muted-foreground">High Urgency</p>
-                <p className="text-2xl font-bold text-orange-500 mt-1">
+              <div className="bg-background rounded-lg p-3 sm:p-4 border">
+                <p className="text-xs sm:text-sm text-muted-foreground">Urgent</p>
+                <p className="text-xl sm:text-2xl font-bold text-orange-500 mt-0.5 sm:mt-1">
                   {stats.highUrgency}
                 </p>
               </div>
-              <div className="bg-background rounded-lg p-4 border">
-                <p className="text-sm text-muted-foreground">
-                  Negative Sentiment
+              <div className="bg-background rounded-lg p-3 sm:p-4 border">
+                <p className="text-xs sm:text-sm text-muted-foreground">
+                  Negative
                 </p>
-                <p className="text-2xl font-bold text-red-500 mt-1">
+                <p className="text-xl sm:text-2xl font-bold text-red-500 mt-0.5 sm:mt-1">
                   {stats.negative}
                 </p>
               </div>
@@ -356,10 +359,10 @@ export function UnifiedDashboard() {
       </header>
 
       {/* Main Content with Tabs */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-4 sm:py-8">
         {error && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 rounded-lg">
-            <p className="text-red-800 dark:text-red-200 text-sm">
+          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 rounded-lg">
+            <p className="text-red-800 dark:text-red-200 text-xs sm:text-sm">
               <strong>Error:</strong> {error}
             </p>
             {dataMode === "live" && (
@@ -373,13 +376,13 @@ export function UnifiedDashboard() {
         )}
 
         <Tabs value={view} onValueChange={handleViewChange}>
-          <TabsList className="mb-6">
-            <TabsTrigger value="inbox" className="flex items-center gap-2">
-              <Inbox className="h-4 w-4" />
+          <TabsList className="mb-4 sm:mb-6 w-full sm:w-auto">
+            <TabsTrigger value="inbox" className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
+              <Inbox className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               Inbox
             </TabsTrigger>
-            <TabsTrigger value="insights" className="flex items-center gap-2">
-              <BarChart3 className="h-4 w-4" />
+            <TabsTrigger value="insights" className="flex-1 sm:flex-none flex items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
+              <BarChart3 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               Insights
             </TabsTrigger>
           </TabsList>

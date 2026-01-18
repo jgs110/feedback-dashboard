@@ -92,36 +92,36 @@ export function FeedbackCard({ item, onEnriched, onSourceClick, onSentimentClick
 
   return (
     <Card className="hover:shadow-md transition-shadow">
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-start gap-3 flex-1 min-w-0">
-            <div className="mt-0.5">
+      <CardHeader className="p-3 sm:p-4 pb-2 sm:pb-3">
+        <div className="flex items-start justify-between gap-2 sm:gap-3">
+          <div className="flex items-start gap-2 sm:gap-3 flex-1 min-w-0">
+            <div className="mt-0.5 hidden sm:block">
               <SourceIcon className="h-5 w-5 text-muted-foreground" />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <div className="flex items-center gap-1.5 sm:gap-2 mb-1 flex-wrap">
                 <Badge
                   variant="outline"
-                  className="capitalize cursor-pointer hover:bg-accent transition-colors"
+                  className="capitalize cursor-pointer hover:bg-accent transition-colors text-xs px-1.5 py-0.5 sm:px-2 sm:py-0.5"
                   onClick={() => onSourceClick?.(localItem.source)}
                 >
                   {localItem.source}
                 </Badge>
                 <Badge
                   variant={sentimentVariants[localItem.sentiment]}
-                  className="cursor-pointer hover:opacity-80 transition-opacity"
+                  className="cursor-pointer hover:opacity-80 transition-opacity text-xs px-1.5 py-0.5 sm:px-2 sm:py-0.5"
                   onClick={() => onSentimentClick?.(localItem.sentiment)}
                 >
                   {localItem.sentiment}
                 </Badge>
                 {localItem.status === "new" && (
-                  <Badge variant="default" className="bg-orange-500 hover:bg-orange-600">
+                  <Badge variant="default" className="bg-orange-500 hover:bg-orange-600 text-xs px-1.5 py-0.5 sm:px-2 sm:py-0.5">
                     New
                   </Badge>
                 )}
                 {localItem.urgency && (
-                  <div className="flex items-center gap-1">
-                    <AlertCircle className={`h-3.5 w-3.5 ${urgencyColor}`} />
+                  <div className="flex items-center gap-0.5 sm:gap-1">
+                    <AlertCircle className={`h-3 w-3 sm:h-3.5 sm:w-3.5 ${urgencyColor}`} />
                     <span className={`text-xs font-medium ${urgencyColor}`}>
                       P{localItem.urgency}
                     </span>
@@ -129,17 +129,17 @@ export function FeedbackCard({ item, onEnriched, onSourceClick, onSentimentClick
                 )}
               </div>
               {localItem.title && (
-                <h3 className="font-semibold text-base mb-1 line-clamp-1">
+                <h3 className="font-semibold text-sm sm:text-base mb-1 line-clamp-2 sm:line-clamp-1">
                   {localItem.title}
                 </h3>
               )}
               {localItem.authorHandle && (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   {localItem.authorHandle} · {formatRelativeTime(localItem.createdAt)}
                 </p>
               )}
               {!localItem.authorHandle && (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   {formatRelativeTime(localItem.createdAt)}
                 </p>
               )}
@@ -150,7 +150,7 @@ export function FeedbackCard({ item, onEnriched, onSourceClick, onSentimentClick
               href={localItem.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors"
+              className="text-muted-foreground hover:text-primary transition-colors p-1 -m-1"
             >
               <ExternalLink className="h-4 w-4" />
             </a>
@@ -158,53 +158,53 @@ export function FeedbackCard({ item, onEnriched, onSourceClick, onSentimentClick
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-3">
+      <CardContent className="p-3 sm:p-4 pt-0 space-y-2 sm:space-y-3">
         {/* Analyze Button */}
         {needsAnalysis && (
           <button
             onClick={handleAnalyze}
             disabled={analyzing}
-            className="w-full px-4 py-2 text-sm rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full px-3 sm:px-4 py-2 text-xs sm:text-sm rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
           >
-            <Sparkles className="h-4 w-4" />
+            <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             {analyzing ? 'Analyzing...' : 'Analyze with AI'}
           </button>
         )}
 
         {/* AI Summary - with graceful handling for missing summaries */}
         {localItem.summary ? (
-          <div className="bg-orange-50 rounded-md p-3 border border-orange-200">
-            <div className="flex items-start gap-2 mb-1">
-              <Sparkles className="h-3.5 w-3.5 text-orange-600 mt-0.5 flex-shrink-0" />
-              <span className="text-xs font-semibold text-orange-900 uppercase tracking-wide">
+          <div className="bg-orange-50 dark:bg-orange-950/30 rounded-md p-2.5 sm:p-3 border border-orange-200 dark:border-orange-900">
+            <div className="flex items-start gap-1.5 sm:gap-2 mb-1">
+              <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-orange-600 dark:text-orange-400 mt-0.5 flex-shrink-0" />
+              <span className="text-xs font-semibold text-orange-900 dark:text-orange-300 uppercase tracking-wide">
                 AI Summary
               </span>
             </div>
-            <p className="text-sm text-orange-950 leading-relaxed ml-5">
+            <p className="text-xs sm:text-sm text-orange-950 dark:text-orange-200 leading-relaxed ml-4 sm:ml-5">
               {localItem.summary}
             </p>
           </div>
         ) : !needsAnalysis ? (
-          <div className="bg-muted/30 rounded-md p-3 border-l-2 border-gray-300">
-            <p className="text-sm text-muted-foreground italic">
+          <div className="bg-muted/30 rounded-md p-2.5 sm:p-3 border-l-2 border-gray-300 dark:border-gray-600">
+            <p className="text-xs sm:text-sm text-muted-foreground italic">
               Not analyzed yet
             </p>
           </div>
         ) : null}
 
         {/* Original Content */}
-        <p className="text-sm text-foreground/90 line-clamp-3">
+        <p className="text-xs sm:text-sm text-foreground/90 line-clamp-3">
           {localItem.content}
         </p>
 
         {/* Themes - with graceful handling for empty themes */}
         {localItem.themes && localItem.themes.length > 0 ? (
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1 sm:gap-1.5">
             {localItem.themes.map((theme) => (
               <Badge
                 key={theme}
                 variant="secondary"
-                className="text-xs cursor-pointer hover:bg-secondary/80 transition-colors"
+                className="text-xs cursor-pointer hover:bg-secondary/80 transition-colors px-1.5 py-0.5"
                 onClick={() => onThemeClick?.(theme)}
               >
                 {theme}
@@ -213,14 +213,14 @@ export function FeedbackCard({ item, onEnriched, onSourceClick, onSentimentClick
           </div>
         ) : (
           <div className="flex gap-1.5">
-            <Badge variant="outline" className="text-xs text-muted-foreground">
-              No themes detected
+            <Badge variant="outline" className="text-xs text-muted-foreground px-1.5 py-0.5">
+              No themes
             </Badge>
           </div>
         )}
 
         {/* Product Area & Tags */}
-        <div className="flex items-center gap-2 flex-wrap text-xs text-muted-foreground">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap text-xs text-muted-foreground">
           {localItem.productArea && (
             <span className="font-medium text-foreground">
               {localItem.productArea}
@@ -229,12 +229,15 @@ export function FeedbackCard({ item, onEnriched, onSourceClick, onSentimentClick
           {localItem.tags && localItem.tags.length > 0 && (
             <>
               {localItem.productArea && <span>·</span>}
-              {localItem.tags.map((tag, idx) => (
+              {localItem.tags.slice(0, 3).map((tag, idx) => (
                 <span key={tag}>
                   #{tag}
-                  {idx < localItem.tags!.length - 1 && ","}
+                  {idx < Math.min(localItem.tags!.length, 3) - 1 && ","}
                 </span>
               ))}
+              {localItem.tags.length > 3 && (
+                <span className="text-muted-foreground">+{localItem.tags.length - 3}</span>
+              )}
             </>
           )}
         </div>

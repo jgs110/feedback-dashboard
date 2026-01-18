@@ -122,10 +122,11 @@ export function TrendChart({ filters, useMockData = false }: TrendChartProps) {
 
     return {
       grid: {
-        left: "50px",
-        right: "20px",
-        top: "40px",
-        bottom: "40px",
+        left: "40px",
+        right: "10px",
+        top: "30px",
+        bottom: "50px",
+        containLabel: false,
       },
       xAxis: {
         type: "category",
@@ -258,19 +259,19 @@ export function TrendChart({ filters, useMockData = false }: TrendChartProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
+      <CardHeader className="p-3 sm:p-6 pb-2 sm:pb-4">
+        <CardTitle className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
           <div className="flex items-center gap-2">
-            <TrendingUp className="h-5 w-5 text-primary" />
-            Feedback Volume Trend
+            <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
+            <span className="text-sm sm:text-base">Feedback Trend</span>
           </div>
-          <span className="text-sm font-normal text-muted-foreground">
-            {data.totalItemsConsidered} items, {data.windowDays}d window
+          <span className="text-xs font-normal text-muted-foreground">
+            {data.totalItemsConsidered} items, {data.windowDays}d
           </span>
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <ReactECharts option={option} style={{ height: "300px" }} />
+      <CardContent className="p-3 sm:p-6 pt-0">
+        <ReactECharts option={option} style={{ height: "200px" }} className="sm:!h-[300px]" />
       </CardContent>
     </Card>
   );

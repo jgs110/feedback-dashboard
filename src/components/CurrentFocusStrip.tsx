@@ -31,16 +31,16 @@ export function CurrentFocusStrip({ focusItems, currentFilters }: CurrentFocusSt
   };
 
   return (
-    <div className="mb-4 px-4 py-2 rounded-lg border bg-primary/5 border-primary/20">
-      <div className="flex items-center gap-2 text-sm">
-        <Target className="h-4 w-4 text-primary" />
-        <span className="font-medium text-foreground">Current focus:</span>
+    <div className="mb-3 sm:mb-4 px-3 sm:px-4 py-2 rounded-lg border bg-primary/5 border-primary/20">
+      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
+        <Target className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary flex-shrink-0" />
+        <span className="font-medium text-foreground">Focus:</span>
         <span className="text-foreground">{activeFocus.title}</span>
-        <span className="text-muted-foreground">•</span>
-        <span className={`font-medium ${getConfidenceColor(activeFocus.confidence)}`}>
-          {activeFocus.confidence.charAt(0).toUpperCase() + activeFocus.confidence.slice(1)} confidence
+        <span className="hidden sm:inline text-muted-foreground">•</span>
+        <span className={`hidden sm:inline font-medium ${getConfidenceColor(activeFocus.confidence)}`}>
+          {activeFocus.confidence.charAt(0).toUpperCase() + activeFocus.confidence.slice(1)}
         </span>
-        <span className="text-muted-foreground ml-auto text-xs">{activeFocus.coverageText}</span>
+        <span className="text-muted-foreground ml-auto text-xs hidden sm:inline">{activeFocus.coverageText}</span>
       </div>
     </div>
   );

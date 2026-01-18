@@ -25,29 +25,30 @@ export function FilterBar({ filters, onFilterChange, variant = "default" }: Filt
     onFilterChange({});
   };
 
+  // Mobile-first responsive classes
   const selectClass = isCompact
-    ? "px-2 py-1 text-xs rounded border bg-muted/30 hover:bg-muted/50 transition-colors"
-    : "px-3 py-2 text-sm rounded-md border bg-background hover:bg-accent transition-colors";
+    ? "flex-1 min-w-[80px] px-2 py-1.5 text-xs rounded border bg-muted/30 hover:bg-muted/50 transition-colors"
+    : "flex-1 sm:flex-none min-w-[100px] sm:min-w-0 px-2 sm:px-3 py-2 text-xs sm:text-sm rounded-md border bg-background hover:bg-accent transition-colors";
 
   const searchClass = isCompact
-    ? "w-full pl-7 pr-2 py-1 text-xs rounded border bg-muted/30 focus:outline-none focus:ring-1 focus:ring-primary"
-    : "w-full pl-9 pr-3 py-2 text-sm rounded-md border bg-background focus:outline-none focus:ring-2 focus:ring-primary";
+    ? "w-full pl-7 pr-2 py-1.5 text-xs rounded border bg-muted/30 focus:outline-none focus:ring-1 focus:ring-primary"
+    : "w-full pl-8 sm:pl-9 pr-3 py-2 text-xs sm:text-sm rounded-md border bg-background focus:outline-none focus:ring-2 focus:ring-primary";
 
   const buttonClass = isCompact
-    ? "px-2 py-1 text-xs rounded border hover:bg-muted/50 transition-colors flex items-center gap-1"
-    : "px-3 py-2 text-sm rounded-md border hover:bg-accent transition-colors flex items-center gap-1.5";
+    ? "px-2 py-1.5 text-xs rounded border hover:bg-muted/50 transition-colors flex items-center gap-1"
+    : "px-2 sm:px-3 py-2 text-xs sm:text-sm rounded-md border hover:bg-accent transition-colors flex items-center gap-1.5";
 
   return (
-    <div className={isCompact ? "space-y-2" : "space-y-3"}>
-      {/* Filter Controls */}
-      <div className={isCompact ? "flex flex-wrap gap-2" : "flex flex-wrap gap-3"}>
+    <div className={isCompact ? "space-y-2" : "space-y-2 sm:space-y-3"}>
+      {/* Filter Controls - Grid on mobile, flex on desktop */}
+      <div className={isCompact ? "flex flex-wrap gap-2" : "grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-3"}>
         {/* Source Filter */}
         <select
           value={filters.source || ""}
           onChange={(e) => updateFilter("source", e.target.value || undefined)}
           className={selectClass}
         >
-          <option value="">All Sources</option>
+          <option value="">Source</option>
           <option value="x">X</option>
           <option value="github">GitHub</option>
           <option value="discord">Discord</option>
@@ -62,7 +63,7 @@ export function FilterBar({ filters, onFilterChange, variant = "default" }: Filt
           onChange={(e) => updateFilter("sentiment", e.target.value || undefined)}
           className={selectClass}
         >
-          <option value="">All Sentiment</option>
+          <option value="">Sentiment</option>
           <option value="negative">Negative</option>
           <option value="neutral">Neutral</option>
           <option value="positive">Positive</option>
@@ -75,7 +76,7 @@ export function FilterBar({ filters, onFilterChange, variant = "default" }: Filt
           onChange={(e) => updateFilter("status", e.target.value || undefined)}
           className={selectClass}
         >
-          <option value="">All Status</option>
+          <option value="">Status</option>
           <option value="new">New</option>
           <option value="triaged">Triaged</option>
           <option value="ignored">Ignored</option>
@@ -87,18 +88,18 @@ export function FilterBar({ filters, onFilterChange, variant = "default" }: Filt
           onChange={(e) => updateFilter("days", parseInt(e.target.value))}
           className={selectClass}
         >
-          <option value="1">Last 24h</option>
-          <option value="7">Last 7 days</option>
-          <option value="30">Last 30 days</option>
+          <option value="1">24h</option>
+          <option value="7">7 days</option>
+          <option value="30">30 days</option>
           <option value="0">All time</option>
         </select>
 
-        {/* Search Input */}
-        <div className={isCompact ? "relative flex-1 min-w-[180px]" : "relative flex-1 min-w-[200px]"}>
-          <Search className={isCompact ? "absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" : "absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground"} />
+        {/* Search Input - Full width on mobile */}
+        <div className={isCompact ? "relative flex-1 min-w-[140px]" : "relative col-span-2 sm:col-span-1 sm:flex-1 sm:min-w-[180px]"}>
+          <Search className={isCompact ? "absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-muted-foreground" : "absolute left-2.5 sm:left-3 top-1/2 -translate-y-1/2 h-3.5 sm:h-4 w-3.5 sm:w-4 text-muted-foreground"} />
           <input
             type="text"
-            placeholder={isCompact ? "Search..." : "Search feedback..."}
+            placeholder="Search..."
             value={filters.q || ""}
             onChange={(e) => updateFilter("q", e.target.value || undefined)}
             className={searchClass}
@@ -111,8 +112,8 @@ export function FilterBar({ filters, onFilterChange, variant = "default" }: Filt
             onClick={clearAllFilters}
             className={buttonClass}
           >
-            <X className={isCompact ? "h-3 w-3" : "h-3.5 w-3.5"} />
-            {!isCompact && "Clear All"}
+            <X className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+            <span className="hidden sm:inline">Clear</span>
           </button>
         )}
       </div>
